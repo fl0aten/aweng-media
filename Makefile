@@ -1,5 +1,5 @@
 .DEFAULT_GOAL:=help
-.PHONY: help install develop start build clean
+.PHONY: help install develop start build clean build_docker_image save_docker_image
 
 DOCKER_TAG = latest
 
