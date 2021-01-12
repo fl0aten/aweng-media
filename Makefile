@@ -1,6 +1,8 @@
 .DEFAULT_GOAL:=help
 .PHONY: help install develop start build clean
 
+DOCKER_TAG = latest
+
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -28,3 +30,9 @@ build: clean ## Build application
 clean: ## Remove .cache and public folder
 	@rm -rf .cache && \
 	rm -rf public
+
+build_docker_image: ## Build nginx docker image
+	@docker build -f docker/Dockerfile -t aweng-media-nginx:$(DOCKER_TAG) .
+
+save_docker_image: ## Save nginx docker image as tar.gz file
+	@docker save aweng-media-nginx:$(DOCKER_TAG) | gzip > aweng-media-nginx.tar.gz
