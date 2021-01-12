@@ -7,21 +7,21 @@ help: ## Show this help message
 install: ## Install Node dependencies
 	@rm -rf node_modules && \
 	docker create --cidfile .cidfile -w /app node:alpine npm install && \
-	docker cp package.json $$(cat .cidfile):/app/package.json && \
-	docker cp package-lock.json $$(cat .cidfile):/app/package-lock.json && \
+	docker cp -a package.json $$(cat .cidfile):/app/package.json && \
+	docker cp -a package-lock.json $$(cat .cidfile):/app/package-lock.json && \
 	docker start -a $$(cat .cidfile) && \
-	docker cp $$(cat .cidfile):/app/node_modules/ . && \
+	docker cp -a $$(cat .cidfile):/app/node_modules/ . && \
 	docker rm $$(cat .cidfile) ; \
 	rm .cidfile
 
 start: ## Start development environment
-	@docker run --rm -v $$(PWD)/:/app -w /app -p 8000:8000 node:alpine npm start -- -H 0.0.0.0
+	@docker run --rm -u node -v $$(pwd):/app -w /app -p 8000:8000 node:alpine npm start -- -H 0.0.0.0
 
 build: clean ## Build application
 	@docker create --cidfile .cidfile -w /app node:alpine npm run build && \
-	docker cp . $$(cat .cidfile):/app/. && \
+	docker cp -a . $$(cat .cidfile):/app/. && \
 	docker start -a $$(cat .cidfile) && \
-	docker cp $$(cat .cidfile):/app/public . && \
+	docker cp -a $$(cat .cidfile):/app/public . && \
 	docker rm $$(cat .cidfile) ; \
 	rm .cidfile
 
