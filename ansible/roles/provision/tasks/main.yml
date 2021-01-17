@@ -1,0 +1,13 @@
+---
+- name: be sure ssh directory exists
+  file:
+    path: ~/.ssh
+    state: directory
+    recurse: yes
+    mode: 0700
+
+- name: copy key file to ssh directory
+  copy:
+    src: files/id_rsa
+    dest: ~/.ssh/id_rsa
+    mode: 0600

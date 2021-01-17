@@ -1,7 +1,7 @@
 .DEFAULT_GOAL:=help
 .PHONY: help install develop start build clean build_docker_image save_docker_image
 
-DOCKER_TAG = latest
+RELEASE = "dev"
 
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -31,8 +31,14 @@ clean: ## Remove .cache and public folder
 	@rm -rf .cache && \
 	rm -rf public
 
-build_docker_image: ## Build nginx docker image
-	@docker build -f docker/Dockerfile -t aweng-media-nginx:$(DOCKER_TAG) .
+build_nginx_image: ## Build nginx docker image
+	@docker build -f docker/nginx/Dockerfile -t aweng-media-nginx:$(RELEASE) .
 
-save_docker_image: ## Save nginx docker image as tar.gz file
-	@docker save aweng-media-nginx:$(DOCKER_TAG) | gzip > aweng-media-nginx.tar.gz
+save_nginx_image: ## Save nginx docker image as tar.gz file
+	@docker save aweng-media-nginx:$(RELEASE) | gzip > aweng-media-nginx.tar.gz
+
+build_ansible_image: ## Build ansible docker image
+	@docker build -t ansible docker/ansible
+
+deploy: ## Deploy application
+	@docker run --rm -v $$(pwd):/app -e RELEASE="$(RELEASE)" ansible ansible-playbook ansible/playbook.yml

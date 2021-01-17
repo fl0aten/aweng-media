@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  connection: local
+  roles:
+    - provision
+
+- hosts: aweng
+  roles:
+    - deployment

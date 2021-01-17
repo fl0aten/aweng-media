@@ -1,0 +1,32 @@
+---
+- name: be sure project directory exists
+  file:
+    path: "{{ project_path }}{{ release_dir }}{{ lookup('env', 'RELEASE') }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    recurse: yes
+
+- name: copy docker-compose file
+  template:
+    src: templates/docker-compose.yml.j2
+    dest: "{{ project_path }}{{ release_dir }}{{ lookup('env', 'RELEASE') }}/docker-compose.yml"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: copy docker image file
+  copy:
+    src: ../../../../aweng-media-nginx.tar.gz
+    dest: "{{ project_path }}{{ release_dir }}{{ lookup('env', 'RELEASE') }}/aweng-media-nginx.tar.gz"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: load docker image
+  command:
+    cmd: docker load -i aweng-media-nginx.tar.gz
+    chdir: "{{ project_path }}{{ release_dir }}{{ lookup('env', 'RELEASE') }}"
+
+- name: start service
+  command:
+    cmd: docker-compose -p www up -d
+    chdir: "{{ project_path }}{{ release_dir }}{{ lookup('env', 'RELEASE') }}"

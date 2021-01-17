@@ -1,0 +1,7 @@
+all:
+  hosts:
+    aweng:
+      ansible_port: "{{ hostvars.ansible_port }}"
+      ansible_host: "{{ hostvars.ansible_host }}"
+      ansible_user: "{{ hostvars.ansible_user }}"
+    localhost:

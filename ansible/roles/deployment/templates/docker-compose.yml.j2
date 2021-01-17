@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  nginx:
+    image: "aweng-media-nginx:{{ lookup('env','RELEASE') }}"
+    container_name: aweng-media-nginx
+    restart: unless-stopped
+    networks:
+      - default
+      - reverse-proxy
+    expose:
+      - 80
+    labels:
+      - "traefik.enable=true"
+      - "provider.docker.network=reverse-proxy"
+      - "traefik.http.routers.www.rule=Host(`{{ traefik_host }}`)"
+      - "traefik.http.routers.www.entrypoints=websecure"
+      - "traefik.http.routers.www.tls.certresolver=myresolver"
+
+networks:
+  default:
+  reverse-proxy:
+    external:
+      name: reverse-proxy
