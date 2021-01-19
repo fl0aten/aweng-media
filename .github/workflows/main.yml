@@ -15,7 +15,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Create ansible vault password file
-        run: echo ${secrets.VAULT_PASS} > .vault-pass
+        env:
+          VAULT_PASS: ${{ secrets.VAULT_PASS }}
+        run: echo ${VAULT_PASS} > .vault-pass
 
       - name: Install Node dependencies
         run: make install
