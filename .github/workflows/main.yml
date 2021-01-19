@@ -28,12 +28,12 @@ jobs:
       - name: Build nginx docker image
         env:
           RELEASE: ${{ env.GITHUB_RUN_ID }}
-        run: make build_nginx_image
+        run: RELEASE=${RELEASE} make build_nginx_image
         
       - name: Save nginx docker image as tar.gz file
         env:
           RELEASE: ${{ env.GITHUB_RUN_ID }}
-        run: make save_nginx_image
+        run: RELEASE=${RELEASE} make save_nginx_image
         
       - name: Build ansible docker image
         run: make build_ansible_image
@@ -41,4 +41,4 @@ jobs:
       - name: Deploy application
         env:
           RELEASE: ${{ env.GITHUB_RUN_ID }}
-        run: make deploy
+        run: RELEASE=${RELEASE} make deploy
