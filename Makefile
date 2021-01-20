@@ -1,10 +1,13 @@
 .DEFAULT_GOAL:=help
-.PHONY: help install develop start build clean build_docker_image save_docker_image
-
-RELEASE = "dev"
+.PHONY: build build_ansible_image build_nginx_image clean deploy help install save_nginx_image start check_release_env
 
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+check_release_env:
+ifndef RELEASE
+	$(error Environment variable [RELEASE] is undefined!)
+endif
 
 install: ## Install Node dependencies
 	@rm -rf node_modules && \
@@ -31,14 +34,14 @@ clean: ## Remove .cache and public folder
 	@rm -rf .cache && \
 	rm -rf public
 
-build_nginx_image: ## Build nginx docker image
-	@docker build -f docker/nginx/Dockerfile -t aweng-media-nginx:$(RELEASE) .
+build_nginx_image: check_release_env ## Build nginx docker image
+	@docker build -f docker/nginx/Dockerfile -t aweng-media-nginx:$${RELEASE} .
 
-save_nginx_image: ## Save nginx docker image as tar.gz file
-	@docker save aweng-media-nginx:$(RELEASE) | gzip > aweng-media-nginx.tar.gz
+save_nginx_image: check_release_env ## Save nginx docker image as tar.gz file
+	@docker save aweng-media-nginx:$${RELEASE} | gzip > aweng-media-nginx.tar.gz
 
 build_ansible_image: ## Build ansible docker image
 	@docker build -t ansible docker/ansible
 
-deploy: ## Deploy application
-	@docker run --rm -v $$(pwd):/app -e RELEASE="$(RELEASE)" ansible ansible-playbook ansible/playbook.yml
+deploy: check_release_env ## Deploy application
+	@docker run --rm -v $$(pwd):/app -e RELEASE=$${RELEASE} ansible ansible-playbook ansible/playbook.yml
