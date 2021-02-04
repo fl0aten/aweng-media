@@ -15,11 +15,15 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "bootstrap": "^4.6.0",
-    "gatsby": "^2.26.1",
+    "@tailwindcss/postcss7-compat": "^2.0.2",
+    "autoprefixer": "^9.8.6",
+    "gatsby": "^2.32.0",
     "gatsby-plugin-sass": "^3.0.0",
+    "postcss": "^7.0.35",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "sass": "^1.32.2"
-  }
+    "sass": "^1.32.2",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2"
+  },
+  "devDependencies": {}
 }
