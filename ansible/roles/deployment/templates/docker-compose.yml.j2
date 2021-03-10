@@ -16,6 +16,10 @@ services:
       - "traefik.http.routers.www.rule=Host(`{{ traefik_host }}`)"
       - "traefik.http.routers.www.entrypoints=websecure"
       - "traefik.http.routers.www.tls.certresolver=myresolver"
+      - "traefik.http.middlewares.www-redirect.redirectregex.regex=^https://www.{{ traefik_host }}/(.*)"
+      - "traefik.http.middlewares.www-redirect.redirectregex.replacement=https://{{ traefik_host }}/$${1}"
+      - "traefik.http.middlewares.www-redirect.redirectregex.permanent=true"
+      - "traefik.http.routers.www.middlewares=www-redirect"
 
 networks:
   default:
