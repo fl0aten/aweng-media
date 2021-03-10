@@ -13,7 +13,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "provider.docker.network=reverse-proxy"
-      - "traefik.http.routers.www.rule=Host(`{{ traefik_host }}`)"
+      - "traefik.http.routers.www.rule=Host(`{{ traefik_host }}`) || Host(`www.{{ traefik_host }}`)"
       - "traefik.http.routers.www.entrypoints=websecure"
       - "traefik.http.routers.www.tls.certresolver=myresolver"
       - "traefik.http.middlewares.www-redirect.redirectregex.regex=^https://www.{{ traefik_host }}/(.*)"
