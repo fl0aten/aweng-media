@@ -11,11 +11,13 @@ endif
 
 install: ## Install Node dependencies
 	@rm -rf node_modules && \
-	docker create --cidfile .cidfile -w /app node:alpine npm install && \
+	docker create --cidfile .cidfile -w /app node:alpine npm install $(ARGS) && \
 	docker cp -a package.json $$(cat .cidfile):/app/package.json && \
 	docker cp -a package-lock.json $$(cat .cidfile):/app/package-lock.json && \
 	docker start -a $$(cat .cidfile) && \
 	docker cp -a $$(cat .cidfile):/app/node_modules/ . && \
+	docker cp -a $$(cat .cidfile):/app/package.json ./package.json && \
+	docker cp -a $$(cat .cidfile):/app/package-lock.json ./package-lock.json && \
 	docker rm $$(cat .cidfile) ; \
 	rm .cidfile
 
