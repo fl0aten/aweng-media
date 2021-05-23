@@ -20,6 +20,10 @@ module.exports = {
                 hero: "url('https://placehold.it/1600x500?text=hero')"
             }
         },
+        fontFamily: {
+            "ntr": "'NTR', sans-serif",
+            "montserrat": "'Montserrat', sans-serif"
+        }
     },
     variants: {
         extend: {},
