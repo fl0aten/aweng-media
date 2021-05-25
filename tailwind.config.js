@@ -14,7 +14,7 @@ module.exports = {
         },
         extend: {
             height: {
-                almost: "calc(100vh - 2 * 64px)",
+                almost: "calc(100vh - 90px)",
             },
             backgroundImage: {
                 hero: "url('https://placehold.it/1600x500?text=hero')"

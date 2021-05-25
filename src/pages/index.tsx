@@ -1,9 +1,10 @@
 import React, { Fragment } from "react";
 import { Popover, Transition } from '@headlessui/react'
 import * as logoDark from "../images/aweng-media-dark.svg";
+import * as placeholder from "../images/placeholder.svg";
 
 export default function Home() {
-    return <main>
+    return <main className="bg-gray-900 font-montserrat">
         <Popover className="relative bg-gray-800">
             {({ open }) => (
                 <>
@@ -21,20 +22,20 @@ export default function Home() {
                                     <span className="material-icons">menu</span>
                                 </Popover.Button>
                             </div>
-                            <Popover.Group as="nav" className="hidden md:flex space-x-10 flex items-center">
-                                <a href="#" className="text-base font-medium text-white hover:text-blue-500 font-montserrat">
+                            <nav className="hidden md:flex space-x-10 flex items-center">
+                                <a href="#" className="text-base font-medium text-white hover:text-blue-500">
                                     Über mich
                                 </a>
-                                <a href="#" className="text-base font-medium text-white hover:text-blue-500 font-montserrat">
+                                <a href="#" className="text-base font-medium text-white hover:text-blue-500">
                                     Dienstleistungen
                                 </a>
-                                <a href="#" className="whitespace-nowrap inline-flex uppercase border-blue-500 font-montserrat items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-blue-500 bg-transparent hover:text-white hover:bg-blue-500">
+                                <a href="#" className="whitespace-nowrap inline-flex uppercase border-blue-500 items-center justify-center px-4 py-2 border border-transparent shadow-sm text-base font-medium text-blue-500 bg-transparent hover:text-white hover:bg-blue-500">
                                     Kontakt
                                 </a>
-                                <a href="#" className="whitespace-nowrap text-base font-medium text-white font-montserrat hover:text-blue-500 ">
+                                <a href="#" className="whitespace-nowrap text-base font-medium text-white hover:text-blue-500 ">
                                     <span className="material-icons text-2xl">light_mode</span>
                                 </a>
-                            </Popover.Group>
+                            </nav>
                         </div>
                     </div>
 
@@ -85,7 +86,7 @@ export default function Home() {
                                 </div>
                                 <div className="py-6 px-5 space-y-6">
                                     <div>
-                                        <a href="#" className="uppercase w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-500 hover:bg-indigo-700">
+                                        <a href="#" className="uppercase w-full flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-base font-medium text-white bg-blue-500 hover:bg-indigo-700">
                                             Kontakt
                                         </a>
                                     </div>
@@ -96,5 +97,16 @@ export default function Home() {
                 </>
             )}
         </Popover>
+        <section className="h-almost flex items-center container">
+            <div>
+                <h1 className="uppercase font-ntr text-4xl lg:text-6xl text-blue-500 -mb-5">Dominic Holzinger</h1>
+                <h2 className="text-white font-mon text-5xl lg:text-7xl my-8 font-semibold">Full Stack Web Developer</h2>
+                <div>
+                    <a href="#" className="puppercase whitespace-nowrap inline-flex uppercase border-blue-500 items-center justify-center px-8 py-2 border border-transparent shadow-sm text-base font-medium text-blue-500 bg-transparent hover:text-white hover:bg-blue-500">
+                        Dienstleistungen ansehen<span className="material-icons text-base pl-2">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+        </section>
     </main>
 }
