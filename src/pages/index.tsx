@@ -3,9 +3,34 @@ import { Popover, Transition, Dialog } from '@headlessui/react'
 import * as logoDark from "../images/aweng-media-dark.svg";
 
 export default function Home() {
-    const [open, setOpen] = useState(true)
-
+    const [ open, setOpen ] = useState(true)
     const cancelButtonRef = useRef(null)
+    const services = [
+        {
+            title: "Webentwicklung",
+            text: "Ihr Aushängeschild im Internet. Ganz egal ob klein oder groß, statisch oder dynamisch, per Hand oder CMS. Ich bastel Ihnen den perfekten Webauftritt, genau auf Ihre Bedürfnisse zugeschnitten!"
+        },
+        {
+            title: "Webdesign",
+            text: "Um sich von der Masse des Webs abzuheben, ist ein atemberaubendes Design notwendig! Als Pixelschubser sorge ich neben einem Wow-Effekt auch für die perfekte Benutzererfahrung!"
+        },
+        {
+            title: "Individualsoftware",
+            text: "Kein Programm gleicht dem anderen. Individuelle Prozesse benötigen individuelle Software. Gemeinsam erarbeiten wir genau das perfekte Stückchen Code, welches Ihnen noch gefehlt hat!"
+        },
+        {
+            title: "Automatisierung",
+            text: "Wiederkehrende Aufgaben sind zwar oft einfach, doch verbrauchen nur unnötig Zeit. Vieles lässt sich mit einfachen Skripten automatisieren. Ganz von alleine, senkt es nebenbei auch noch die Fehlerquote!"
+        },
+        {
+            title: "Beratung",
+            text: "Eine Idee, ein Projekt oder auch einfach nur eine Frage zu einer Zeile Code? Abkürzungen wie MySQL und SEO verursachen nur noch mehr Fragen? Dann melden Sie sich! Ich berate und helfe gerne!"
+        },
+        {
+            title: "Vieles mehr!",
+            text: "Im Web überschneiden sich viele Bereiche. Auch wenn ich Themen wie Webshops, Apps und Co. nicht einzeln aufgeführt habe, bin ich in der Lage, auch diese zu realisieren. Einfach unverbindlich anfragen!"
+        },
+    ]
 
     return <main className="bg-gray-900 font-montserrat overflow-hidden">
         <Popover className="fixed bg-gray-800 w-full">
@@ -116,13 +141,13 @@ export default function Home() {
                 <div className="text-blue-500 text-ntr text-2xl">Was mache ich so?</div>
                 <div className="text-white text-5xl font-semibold my-5">Dienstleistungen</div>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 bg-gradient-to-br from-gray-800 via-gray-900 to-gray-900 p-16">
-                    {[1, 2, 3, 4, 5, 6].map(v => (
+                    {services.map(v => (
                         <div className="text-white">
                             <div>
                                 <span className="material-icons-outlined text-blue-500 text-7xl">collections</span>
                             </div>
-                            <h3 className="text-3xl font-semibold my-5">Lorem Ipsum</h3>
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>
+                            <h3 className="text-3xl font-semibold my-5">{ v.title }</h3>
+                            <p>{ v.text }</p>
                         </div>
                     ))};
                 </div>
@@ -132,8 +157,11 @@ export default function Home() {
                     <div className="col-span-1">
                         <div className="text-blue-500 text-ntr text-2xl">&mdash; ein' Hauch nerdiger?</div>
                         <div className="text-white text-5xl font-semibold my-5">Anders gesagt</div>
+                        <p className="text-white mb-5">
+                            Als leidenschaftlicher Full Stack Web Developer fühle ich mich sowohl im Backend, wie auch im Frontend, wohl. TypeScript und PHP sind die Sprachen meiner Wahl, doch weiche ich auch je nach Anwendungsfall gerne auf andere Sprachen aus. Ich lege sehr viel Wert auf sauberen und sicheren Code, weshalb Tests aller Art einfach für mich dazugehören. Eine Code-Coverage von 100% gibt ein zusätzlich sicheres Gefühl. Libraries und Frameworks wie React, Vue, Slim, Symfony, Bootstrap, Tailwind und Co. sind bekannt und im Einsatz. Bei meiner Infrastruktur setze ich auf Linux und Docker (Swarm), um sicher, performant und gleichzeitig flexibel zu sein.
+                        </p>
                         <p className="text-white">
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. <br />Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                            Neben dem Umsetzen von direkten Aufträgen, biete ich auch als Freelancer Unterstützung bei Projekten an. Ich freue mich auf Ihre Anfrage!
                         </p>
                     </div>
                 </div>
