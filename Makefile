@@ -9,32 +9,32 @@ ifndef RELEASE
 	$(error Environment variable [RELEASE] is undefined!)
 endif
 
-install: ## Install Node dependencies
-	@rm -rf node_modules && \
-	docker create --cidfile .cidfile -w /app node:alpine npm install $(ARGS) && \
-	docker cp -a package.json $$(cat .cidfile):/app/package.json && \
-	docker cp -a package-lock.json $$(cat .cidfile):/app/package-lock.json && \
-	docker start -a $$(cat .cidfile) && \
-	docker cp -a $$(cat .cidfile):/app/node_modules/ . && \
-	docker cp -a $$(cat .cidfile):/app/package.json ./package.json && \
-	docker cp -a $$(cat .cidfile):/app/package-lock.json ./package-lock.json && \
-	docker rm $$(cat .cidfile) ; \
-	rm .cidfile
+install_frontend: ## Install frontend dependencies
+	@rm -rf ./frontend/node_modules && \
+	docker create --cidfile ./frontend/.cidfile -w /app node:alpine npm install $(ARGS) && \
+	docker cp -a ./frontend/package.json $$(cat ./frontend/.cidfile):/app/package.json && \
+	docker cp -a ./frontend/package-lock.json $$(cat ./frontend/.cidfile):/app/package-lock.json && \
+	docker start -a $$(cat ./frontend/.cidfile) && \
+	docker cp -a $$(cat ./frontend/.cidfile):/app/node_modules/ ./frontend/. && \
+	docker cp -a $$(cat ./frontend/.cidfile):/app/package.json ./frontend/package.json && \
+	docker cp -a $$(cat ./frontend/.cidfile):/app/package-lock.json ./frontend/package-lock.json && \
+	docker rm $$(cat ./frontend/.cidfile) ; \
+	rm ./frontend/.cidfile
 
-start: ## Start development environment
-	@docker run --rm -u node -v $$(pwd):/app -w /app -p 8000:8000 node:alpine npm start -- -H 0.0.0.0
+start_frontend: ## Start frontend development environment
+	@docker run --rm -u node -v $$(pwd)/frontend:/app -w /app -p 8000:8000 node:alpine npm start -- -H 0.0.0.0
 
-build: clean ## Build application
-	@docker create --cidfile .cidfile -w /app node:alpine npm run build && \
-	docker cp -a . $$(cat .cidfile):/app/. && \
-	docker start -a $$(cat .cidfile) && \
-	docker cp -a $$(cat .cidfile):/app/public . && \
-	docker rm $$(cat .cidfile) ; \
-	rm .cidfile
+build_frontend: clean_frontend ## Build frontend application
+	@docker create --cidfile ./frontend/.cidfile -w /app node:alpine npm run build && \
+	docker cp -a ./frontend/. $$(cat ./frontend/.cidfile):/app/. && \
+	docker start -a $$(cat ./frontend/.cidfile) && \
+	docker cp -a $$(cat ./frontend/.cidfile):/app/public ./frontend/. && \
+	docker rm $$(cat ./frontend/.cidfile) ; \
+	rm ./frontend/.cidfile
 
-clean: ## Remove .cache and public folder
-	@rm -rf .cache && \
-	rm -rf public
+clean_frontend: ## Remove frontend .cache and public folder
+	@rm -rf ./frontend/.cache && \
+	rm -rf ./frontend/public
 
 build_nginx_image: check_release_env ## Build nginx docker image
 	@docker build -f docker/nginx/Dockerfile -t aweng-media-nginx:$${RELEASE} .
@@ -42,8 +42,42 @@ build_nginx_image: check_release_env ## Build nginx docker image
 save_nginx_image: check_release_env ## Save nginx docker image as tar.gz file
 	@docker save aweng-media-nginx:$${RELEASE} | gzip > aweng-media-nginx.tar.gz
 
+build_php_image: check_release_env ## Build nginx docker image
+	@docker build -f docker/php/Dockerfile -t aweng-media-php:$${RELEASE} .
+
+save_php_image: check_release_env ## Save nginx docker image as tar.gz file
+	@docker save aweng-media-php:$${RELEASE} | gzip > aweng-media-php.tar.gz
+
 build_ansible_image: ## Build ansible docker image
 	@docker build -t ansible docker/ansible
 
 deploy: check_release_env ## Deploy application
 	@docker run --rm -v $$(pwd):/app -e RELEASE=$${RELEASE} ansible ansible-playbook ansible/playbook.yml
+
+decrypt_vault: build_ansible_image ## Decrypt secrets
+	@docker create --cidfile .cidfile -w /app ansible ansible-vault decrypt aweng.yml main.yml id_rsa && \
+	docker cp -a ansible/host_vars/aweng.yml $$(cat .cidfile):/app/. && \
+	docker cp -a ansible/roles/deployment/vars/main.yml $$(cat .cidfile):/app/. && \
+	docker cp -a ansible/roles/provision/files/id_rsa $$(cat .cidfile):/app/. && \
+	docker cp -a ansible.cfg $$(cat .cidfile):/app/. && \
+	docker cp -a .vault-pass $$(cat .cidfile):/app/. && \
+	docker start -a $$(cat .cidfile) && \
+	docker cp -a $$(cat .cidfile):/app/aweng.yml ansible/host_vars/aweng.yml && \
+	docker cp -a $$(cat .cidfile):/app/main.yml ansible/roles/deployment/vars/main.yml && \
+	docker cp -a $$(cat .cidfile):/app/id_rsa ansible/roles/provision/files/id_rsa && \
+	docker rm $$(cat .cidfile) ; \
+	rm .cidfile
+
+encrypt_vault: build_ansible_image ## Encrypt secrets
+	@docker create --cidfile .cidfile -w /app ansible ansible-vault encrypt aweng.yml main.yml id_rsa && \
+	docker cp -a ansible/host_vars/aweng.yml $$(cat .cidfile):/app/. && \
+	docker cp -a ansible/roles/deployment/vars/main.yml $$(cat .cidfile):/app/. && \
+	docker cp -a ansible/roles/provision/files/id_rsa $$(cat .cidfile):/app/. && \
+	docker cp -a ansible.cfg $$(cat .cidfile):/app/. && \
+	docker cp -a .vault-pass $$(cat .cidfile):/app/. && \
+	docker start -a $$(cat .cidfile) && \
+	docker cp -a $$(cat .cidfile):/app/aweng.yml ansible/host_vars/aweng.yml && \
+	docker cp -a $$(cat .cidfile):/app/main.yml ansible/roles/deployment/vars/main.yml && \
+	docker cp -a $$(cat .cidfile):/app/id_rsa ansible/roles/provision/files/id_rsa && \
+	docker rm $$(cat .cidfile) ; \
+	rm .cidfile
