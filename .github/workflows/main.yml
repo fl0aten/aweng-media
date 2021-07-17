@@ -18,10 +18,10 @@ jobs:
         run: echo ${VAULT_PASS} > .vault-pass
 
       - name: Install Node dependencies
-        run: make install
+        run: make install_frontend
 
       - name: Build application
-        run: make build
+        run: make build_frontend
         
       - name: Build nginx docker image
         run: make build_nginx_image RELEASE=$GITHUB_RUN_ID
