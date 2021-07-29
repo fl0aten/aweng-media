@@ -1,6 +1,7 @@
-node_modules/
-.cache/
-public/
+frontend/node_modules/
+frontend/.cache/
+frontend/public/
+
 .idea/
 aweng-media-nginx.tar.gz
 .vault-pass

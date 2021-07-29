@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  nginx:
+    image: aweng-media-nginx:dev
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+      target: dev
+    container_name: aweng-media-nginx
+    ports:
+      - 80:80
+
+  node:
+    image: node:alpine
+    container_name: aweng-media-node
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    user: node
+    expose:
+      - 8000
+    entrypoint: "npm start -- -H 0.0.0.0"
+
+  php:
+    image: php:fpm-alpine
+    container_name: aweng-media-php
+    volumes:
+      - ./backend:/app
+    expose:
+      - 9000

@@ -1,5 +1,8 @@
-FROM nginx:alpine
+FROM nginx:alpine AS base
 
-RUN rm /usr/share/nginx/html/*
+FROM base AS dev
+COPY docker/nginx/config/dev.conf /etc/nginx/conf.d/default.conf
 
+FROM base AS prd
+COPY docker/nginx/config/dev.conf /etc/nginx/conf.d/default.conf
 COPY frontend/public/. /usr/share/nginx/html/

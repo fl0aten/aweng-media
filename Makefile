@@ -21,8 +21,8 @@ install_frontend: ## Install frontend dependencies
 	docker rm $$(cat ./frontend/.cidfile) ; \
 	rm ./frontend/.cidfile
 
-start_frontend: ## Start frontend development environment
-	@docker run --rm -u node -v $$(pwd)/frontend:/app -w /app -p 8000:8000 node:alpine npm start -- -H 0.0.0.0
+start: ## Start development environment
+	@docker-compose up --build
 
 build_frontend: clean_frontend ## Build frontend application
 	@docker create --cidfile ./frontend/.cidfile -w /app node:alpine npm run build && \
@@ -36,17 +36,14 @@ clean_frontend: ## Remove frontend .cache and public folder
 	@rm -rf ./frontend/.cache && \
 	rm -rf ./frontend/public
 
-build_nginx_image: check_release_env ## Build nginx docker image
-	@docker build -f docker/nginx/Dockerfile -t aweng-media-nginx:$${RELEASE} .
+build_nginx_image_prd: check_release_env ## Build nginx docker image
+	@docker build -f docker/nginx/Dockerfile --target prd -t aweng-media-nginx:$${RELEASE} .
 
-save_nginx_image: check_release_env ## Save nginx docker image as tar.gz file
+build_nginx_image_dev: ## Build nginx docker image
+	@docker build -f docker/nginx/Dockerfile --target dev -t aweng-media-nginx:dev .
+
+save_nginx_image_prd: check_release_env ## Save nginx docker image as tar.gz file
 	@docker save aweng-media-nginx:$${RELEASE} | gzip > aweng-media-nginx.tar.gz
-
-build_php_image: check_release_env ## Build nginx docker image
-	@docker build -f docker/php/Dockerfile -t aweng-media-php:$${RELEASE} .
-
-save_php_image: check_release_env ## Save nginx docker image as tar.gz file
-	@docker save aweng-media-php:$${RELEASE} | gzip > aweng-media-php.tar.gz
 
 build_ansible_image: ## Build ansible docker image
 	@docker build -t ansible docker/ansible
