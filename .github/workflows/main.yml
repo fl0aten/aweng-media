@@ -30,7 +30,7 @@ jobs:
         run: make build_nginx_image_prd RELEASE=$GITHUB_RUN_ID
 
       - name: Build php docker image
-          run: make build_php_image_prd RELEASE=$GITHUB_RUN_ID
+        run: make build_php_image_prd RELEASE=$GITHUB_RUN_ID
         
       - name: Save nginx docker image as tar.gz file
         run: make save_nginx_image_prd RELEASE=$GITHUB_RUN_ID
