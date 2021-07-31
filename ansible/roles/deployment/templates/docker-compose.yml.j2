@@ -30,8 +30,8 @@ services:
       expose:
         - 9000
       environment:
-        - "EMAIL_ADDRESS={{ lookup('env','email_address') }}"
-        - "EMAIL_PASSWORD={{ lookup('env','email_password') }}"
+        - "EMAIL_ADDRESS={{ email_address }}"
+        - "EMAIL_PASSWORD={{ email_password }}"
 
 networks:
   default:
