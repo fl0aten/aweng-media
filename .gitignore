@@ -2,6 +2,10 @@ frontend/node_modules/
 frontend/.cache/
 frontend/public/
 
+backend/vendor/
+
 .idea/
-aweng-media-nginx.tar.gz
 .vault-pass
+
+aweng-media-nginx.tar.gz
+aweng-media-php.tar.gz

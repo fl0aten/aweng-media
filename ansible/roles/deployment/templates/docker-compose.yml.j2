@@ -21,6 +21,18 @@ services:
       - "traefik.http.middlewares.www-redirect.redirectregex.permanent=true"
       - "traefik.http.routers.www.middlewares=www-redirect"
 
+  php:
+      image: "aweng-media-php:{{ lookup('env','RELEASE') }}"
+      container_name: aweng-media-php
+      restart: unless-stopped
+      networks:
+        - default
+      expose:
+        - 9000
+      environment:
+        - "EMAIL_ADDRESS={{ lookup('env','email_address') }}"
+        - "EMAIL_PASSWORD={{ lookup('env','email_password') }}"
+
 networks:
   default:
   reverse-proxy:

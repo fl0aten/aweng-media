@@ -14,16 +14,28 @@
     owner: "{{ user }}"
     group: "{{ group }}"
 
-- name: copy docker image file
+- name: copy nginx docker image file
   copy:
     src: ../../../../aweng-media-nginx.tar.gz
     dest: "{{ project_path }}{{ release_dir }}{{ lookup('env', 'RELEASE') }}/aweng-media-nginx.tar.gz"
     owner: "{{ user }}"
     group: "{{ group }}"
 
-- name: load docker image
+- name: copy php docker image file
+  copy:
+    src: ../../../../aweng-media-php.tar.gz
+    dest: "{{ project_path }}{{ release_dir }}{{ lookup('env', 'RELEASE') }}/aweng-media-php.tar.gz"
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: load nginx docker image
   command:
     cmd: docker load -i aweng-media-nginx.tar.gz
+    chdir: "{{ project_path }}{{ release_dir }}{{ lookup('env', 'RELEASE') }}"
+
+- name: load php docker image
+  command:
+    cmd: docker load -i aweng-media-php.tar.gz
     chdir: "{{ project_path }}{{ release_dir }}{{ lookup('env', 'RELEASE') }}"
 
 - name: start service
