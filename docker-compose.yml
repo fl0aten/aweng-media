@@ -9,7 +9,7 @@ services:
       target: dev
     container_name: aweng-media-nginx
     ports:
-      - 80:80
+      - "80:80"
 
   node:
     image: node:16-alpine
@@ -23,11 +23,11 @@ services:
     entrypoint: "npm start -- -H 0.0.0.0"
 
   php:
-    image: aweng-media-nginx:dev
-      build:
-        context: .
-        dockerfile: docker/php/Dockerfile
-        target: dev
+    image: aweng-media-php:dev
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      target: dev
     container_name: aweng-media-php
     volumes:
       - ./backend:/app
