@@ -20,7 +20,7 @@ services:
     user: node
     expose:
       - 8000
-    entrypoint: "npm start -- -H 0.0.0.0"
+    entrypoint: "yarn start -- -H 0.0.0.0"
 
   php:
     image: aweng-media-php:dev
