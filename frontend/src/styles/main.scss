@@ -6,6 +6,11 @@ html {
   scroll-behavior: smooth;
 }
 
+.spinner {
+  border-color: transparent;
+  border-bottom-color: white;
+}
+
 @media screen and (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
