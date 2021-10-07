@@ -6,13 +6,18 @@ html {
   scroll-behavior: smooth;
 }
 
+@media screen and (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 .spinner {
   border-color: transparent;
   border-bottom-color: white;
 }
 
-@media screen and (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+.material-icons-outlined.text-7xl {
+  font-size:4.5rem !important;
+  line-height:1
 }
