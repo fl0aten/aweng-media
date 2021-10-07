@@ -4,12 +4,12 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));
 
-$keys = array_keys($_ENV);
+$keys = array_keys($_SERVER);
 $requiredKeys = [ 'EMAIL_ADDRESS', 'EMAIL_PASSWORD' ];
 
 // Check if all environment variables are set.
 if (count(array_diff($requiredKeys, $keys)) !== 0) {
-    error_log('ERROR: Environment variables not found. %s', json_encode($keys));
+    error_log(sprintf('ERROR: Environment variables not found. %s', json_encode($keys)));
 
     // Service Unavailable
     http_response_code(503);
