@@ -48,17 +48,26 @@ export default class ContactSection extends Component<Props, State> {
 
         if (this.state.formStatus === "pending") child = this.renderSpinner();
 
-        return <section className="container ">
-            <div className="text-blue-500 text-ntr text-2xl">Du hast n' cooles Projekt am Start?</div>
-            <div className="text-white text-5xl font-semibold my-5">Lass doch mal ratschen!</div>
-            <div className="p-16 flex flex-col space-y-10 bg-gradient-to-br from-gray-800 via-gray-900 to-gray-900">
+        return <section id="contact" className="container ">
+            <div className="text-blue-500 text-ntr text-1xl sm:text-2xl">Du hast 'n cooles Projekt am Start?</div>
+            <div className="text-white text-3xl md:text-4xl lg:text-5xl font-semibold my-5">Lass doch mal ratschen!</div>
+            <div className="flex flex-col space-y-10 bg-gradient-to-br from-gray-800 via-gray-900 to-gray-900 px-4 py-8 sm:p-8 md:p-12 lg:p-16">
                 <ul className="text-white lg:flex lg:gap-10">
-                    <li className="flex gap-5 lg:gap-2 items-center"><span className="flex-0 material-icons-outlined text-2xl text-blue-500">phone</span><span className="flex-1">0123 4567890</span></li>
-                    <li className="flex gap-5 lg:gap-2 items-center"><span className="flex-0 material-icons-outlined text-2xl text-blue-500">print</span><span className="flex-1">0123 4567890</span></li>
-                    <li className="flex gap-5 lg:gap-2 items-center"><span className="flex-0 material-icons-outlined text-2xl text-blue-500">email</span><span className="flex-1">info@aweng.media</span></li>
+                    <li className="flex gap-5 lg:gap-2 items-center">
+                        <span className="flex-0 material-icons-outlined text-2xl text-blue-500">phone</span>
+                        <span className="flex-1"><a className="hover:text-blue-500" href="tel:+4993132942414">+49 (0) 931 32942414</a></span>
+                    </li>
+                    <li className="flex gap-5 lg:gap-2 items-center">
+                        <span className="flex-0 material-icons-outlined text-2xl text-blue-500">print</span>
+                        <span className="flex-1"><a className="hover:text-blue-500" href="tel:+4993132919574">+49 (0) 931 32919574</a></span>
+                    </li>
+                    <li className="flex gap-5 lg:gap-2 items-center">
+                        <span className="flex-0 material-icons-outlined text-2xl text-blue-500">email</span>
+                        <span className="flex-1"><a className="hover:text-blue-500" href="mailto:info@aweng.media">info@aweng.media</a></span>
+                    </li>
                 </ul>
                 <hr />
-                <div className="text-white text-5xl font-semibold my-5text-white text-5xl font-semibold my-5">Kontaktformular</div>
+                <div className="text-white text-3xl md:text-4xl lg:text-5xl font-semibold my-5">Kontaktformular</div>
                 { child }
             </div>
         </section>;
@@ -104,7 +113,7 @@ export default class ContactSection extends Component<Props, State> {
                     <div className="mb-3 flex-none">
                         <label htmlFor="contact-form-message">Nachricht</label>
                     </div>
-                    <textarea id="contact-form-message" name="message"  maxLength="1000" spellCheck="false" autoComplete="off" className="block bg-gray-800 w-full text-xl px-4 py-2 focus:border-blue-500 border-2 border-transparent h-36 2xl:h-auto flex-1" required="required" />
+                    <textarea id="contact-form-message" name="message"  maxLength="1000" spellCheck="false" autoComplete="off" className="block bg-gray-800 w-full text-xl px-4 py-2 focus:border-blue-500 border-2 border-transparent h-36 2xl:flex-1" required="required" />
                 </div>
             </div>
             <div className="grid grid-flow-row 2xl:grid-cols-2 lg:grid-flow-col text-white 2xl:gap-5">
@@ -117,7 +126,7 @@ export default class ContactSection extends Component<Props, State> {
                             <label htmlFor="contact-form-privacy-consent"> Ich habe die Hinweise zum Datenschutz gelesen und akzeptiere diese.</label>
                         </div>
                     </div>
-                    <div>
+                    <div className="lg:text-right">
                         <Button type="submit">
                             Absenden
                         </Button>
