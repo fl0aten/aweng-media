@@ -16,8 +16,8 @@ if (count(array_diff($requiredKeys, $keys)) !== 0) {
     return;
 }
 
-$senderEmailAddress = (string) $_ENV['EMAIL_ADDRESS'];
-$emailPassword = (string) $_ENV['EMAIL_PASSWORD'];
+$senderEmailAddress = (string) $_SERVER['EMAIL_ADDRESS'];
+$emailPassword = (string) $_SERVER['EMAIL_PASSWORD'];
 
 $keys = array_keys($_POST);
 $requiredKeys = [ 'name', 'email', 'subject', 'message' ];
